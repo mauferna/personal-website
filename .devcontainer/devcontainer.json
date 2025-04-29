@@ -1,0 +1,17 @@
+{
+  "name": "Next.js + Shadcn Dev",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "node": "latest"
+  },
+  "postCreateCommand": "npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  }
+}
