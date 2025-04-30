@@ -1,16 +1,22 @@
 {
-  "name": "Next.js + Shadcn Dev",
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "name": "Personal Website Dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
   "features": {
     "node": "latest"
   },
-  "postCreateCommand": "npm install",
+  // "postCreateCommand": "npm install",
   "customizations": {
     "vscode": {
       "extensions": [
         "bradlc.vscode-tailwindcss",
         "esbenp.prettier-vscode",
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "dsznajder.es7-react-js-snippets",
+        "ms-azuretools.vscode-containers",
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
       ]
     }
   }
