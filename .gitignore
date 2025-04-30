@@ -1,3 +1,6 @@
+# AWS
+.aws/
+
 # Node
 node_modules/
 npm-debug.log*
@@ -47,3 +50,6 @@ storybook-static/
 
 # Local development
 *.local
+
+# Trash folder
+.trash/
