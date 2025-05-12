@@ -1,0 +1,4 @@
+# .envrc.dev
+source .aws-creds/dev.sh
+export AWS_REGION=us-east-1
+export CDK_ENV=dev

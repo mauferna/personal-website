@@ -1,6 +1,9 @@
 # AWS
 .aws/
 
+# AWS temporary credentials
+.aws-creds/
+
 # Node
 node_modules/
 npm-debug.log*
@@ -22,6 +25,10 @@ logs/
 # dotenv
 .env*
 !.env.example
+
+# allow direnv configs
+!.envrc
+!.envrc.*
 
 # OS
 .DS_Store
@@ -53,3 +60,6 @@ storybook-static/
 
 # Trash folder
 .trash/
+
+# Python automation
+__pycache__/

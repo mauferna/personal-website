@@ -1,0 +1,4 @@
+# .envrc.prod
+source .aws-creds/prod.sh
+export AWS_REGION=us-east-1
+export CDK_ENV=prod
