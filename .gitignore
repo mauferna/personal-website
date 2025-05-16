@@ -4,6 +4,9 @@
 # AWS temporary credentials
 .aws-creds/
 
+# CDK context cache
+infra/cdk.context.json
+
 # Node
 node_modules/
 npm-debug.log*
