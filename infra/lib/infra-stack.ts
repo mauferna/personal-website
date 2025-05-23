@@ -5,6 +5,7 @@ import { createCloudFront } from './cloudfront';
 import { createSiteBucket } from './site-bucket';
 import { createCertificate } from './certificate';
 import { createDnsRecord } from './dns-record';
+import { AppRunnerService } from './apprunner';
 
 export class InfraStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -20,12 +21,19 @@ export class InfraStack extends cdk.Stack {
     const recordNames: string[] = config.recordNames;
 
     const zone = HostedZone.fromLookup(this, 'Zone', { domainName: zoneName });
-
     const cert = createCertificate(this, zone, domainName);
-
     const bucket = createSiteBucket(this, bucketName);
-    const distribution = createCloudFront(this, bucket, domainName, cert);
-    
+
+    // Compute linkedDomains from recordNames and zoneName
+    // const linkedDomains = recordNames.map((subdomain: string) =>
+    //   subdomain.includes('.') ? subdomain : `${subdomain}.${zoneName}`
+    // );
+
+    const appRunner = new AppRunnerService(this, 'AppRunnerService', { envName });
+    const appRunnerUrl = appRunner.serviceUrl;
+
+    const distribution = createCloudFront(this, bucket, domainName, cert, appRunnerUrl);
+
     bucket.addToResourcePolicy(
       new cdk.aws_iam.PolicyStatement({
         actions: ['s3:GetObject'],
@@ -43,9 +51,9 @@ export class InfraStack extends cdk.Stack {
       createDnsRecord(this, zone, name, distribution);
     });
 
-
     new cdk.CfnOutput(this, 'BucketName', { value: bucket.bucketName });
     new cdk.CfnOutput(this, 'CloudFrontURL', { value: `https://${distribution.domainName}` });
     new cdk.CfnOutput(this, 'DomainURL', { value: `https://${domainName}` });
+    new cdk.CfnOutput(this, 'AppRunnerURL', { value: appRunnerUrl });
   }
 }

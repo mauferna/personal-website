@@ -30,6 +30,7 @@ def help(c):
   invoke sso-login
   invoke assume-role --env dev
   direnv reload
+  invoke whoami        
   invoke bootstrap-cdk
   invoke deploy-cdk
 
