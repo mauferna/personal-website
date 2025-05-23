@@ -1,9 +1,0 @@
-{
-  "personal-website-dev": {
-    "ExportdevAppRunnerServiceUrl": "mmhk9weaqp.us-east-1.awsapprunner.com",
-    "BucketName": "static.dev.mauferna.com",
-    "CloudFrontURL": "https://d20a6lx7whvdfx.cloudfront.net",
-    "DomainURL": "https://dev.mauferna.com",
-    "AppRunnerURL": "mmhk9weaqp.us-east-1.awsapprunner.com"
-  }
-}

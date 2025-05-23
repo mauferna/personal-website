@@ -1,6 +1,9 @@
 # AWS
 .aws/
 
+# AWS CDK
+infra/cdk-outputs.json
+
 # AWS temporary credentials
 .aws-creds/
 
