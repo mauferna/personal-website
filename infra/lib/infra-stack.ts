@@ -1,6 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
+import { getEnvConfig } from './context';
 import { createCloudFront } from './cloudfront';
 import { createSiteBucket } from './site-bucket';
 import { createCertificate } from './certificate';
@@ -12,13 +13,8 @@ export class InfraStack extends cdk.Stack {
     super(scope, id, props);
 
     const envName = this.node.tryGetContext('envName') || 'dev';
-    const envs = this.node.tryGetContext('envs');
-    const config = envs[envName];
-
-    const domainName = config.domainName;
-    const bucketName = config.bucketName;
-    const zoneName = config.zoneName;
-    const recordNames: string[] = config.recordNames;
+    const config = getEnvConfig(this);
+    const { domainName, bucketName, zoneName, recordNames } = config;
 
     const zone = HostedZone.fromLookup(this, 'Zone', { domainName: zoneName });
     const cert = createCertificate(this, zone, domainName);
@@ -34,6 +30,7 @@ export class InfraStack extends cdk.Stack {
 
     const distribution = createCloudFront(this, bucket, domainName, cert, appRunnerUrl);
 
+    // Allow CloudFront to access the private S3 bucket
     bucket.addToResourcePolicy(
       new cdk.aws_iam.PolicyStatement({
         actions: ['s3:GetObject'],
@@ -47,10 +44,19 @@ export class InfraStack extends cdk.Stack {
       })
     );
 
+    // Create DNS records for each name in recordNames
     recordNames.forEach((name) => {
       createDnsRecord(this, zone, name, distribution);
     });
 
+    // Tag the stack for cost and environment tracking
+    cdk.Tags.of(this).add('env', envName);
+    cdk.Tags.of(this).add('project', 'personal-website');
+
+    // Test CDK config resolution
+    console.log("🔧 Loaded env config:", config);
+
+    // CDK Outputs
     new cdk.CfnOutput(this, 'BucketName', { value: bucket.bucketName });
     new cdk.CfnOutput(this, 'CloudFrontURL', { value: `https://${distribution.domainName}` });
     new cdk.CfnOutput(this, 'DomainURL', { value: `https://${domainName}` });

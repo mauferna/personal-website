@@ -17,21 +17,6 @@
     ]
   },
   "context": {
-    "envs": {
-      "dev": {
-        "region": "us-east-1",
-        "domainName": "dev.mauferna.com",
-        "bucketName": "static.dev.mauferna.com",
-        "zoneName": "mauferna.com",
-        "recordNames": ["dev", "www.dev"]
-      },
-      "prod": {
-        "domainName": "mauferna.com",
-        "bucketName": "static.mauferna.com",
-        "zoneName": "mauferna.com",
-        "recordNames": ["mauferna.com", "www"]
-      }
-    },
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,
     "@aws-cdk/core:target-partitions": [
