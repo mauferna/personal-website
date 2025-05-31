@@ -30,6 +30,11 @@ jobs:
     defaults:
       run:
         working-directory: infra
+    
+    env:
+      AWS_ACCESS_KEY_ID: FAKEKEY
+      AWS_SECRET_ACCESS_KEY: FAKESECRET
+      AWS_REGION: us-east-1
 
     steps:
       - uses: actions/checkout@v4
