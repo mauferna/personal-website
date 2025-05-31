@@ -6,27 +6,36 @@ on:
     branches: [main, dev]
 
 jobs:
-  web:
+  web-app:
     name: 🧪 Web App CI
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: apps/web  # 👈 Run commands from this subdir
+        working-directory: apps/web
 
     steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-
-      - name: 🧰 Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint
+      - name: 🐳 Build Docker image (App Runner)
+        run: docker build -t web-app .
 
-      - name: 📦 Install dependencies
-        run: npm ci
+  infra:
+    name: 🔧 Infra CI
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
 
-      - name: 🧪 Type check and build
-        run: npm run build
-
-      - name: 🧹 Lint
-        run: npm run lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run build
+      - run: npx cdk synth
