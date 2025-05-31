@@ -16,7 +16,11 @@ export class InfraStack extends cdk.Stack {
     const config = getEnvConfig(this);
     const { domainName, bucketName, zoneName, recordNames } = config;
 
-    const zone = HostedZone.fromLookup(this, 'Zone', { domainName: zoneName });
+    const zoneId = config.zoneId;
+    const zone = HostedZone.fromHostedZoneAttributes(this, 'Zone', {
+      hostedZoneId: zoneId,
+      zoneName: zoneName,
+    });
     const cert = createCertificate(this, zone, domainName);
     const bucket = createSiteBucket(this, bucketName);
 
